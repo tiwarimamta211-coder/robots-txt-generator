@@ -1,0 +1,987 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Robots.txt Generator | IncomeAIHub by M.Dev</title>
+<meta name="description" content="Generate a perfect, SEO-friendly robots.txt file for your website in seconds. Block AI bots, add sitemaps, and control crawlers with ease.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0a0a0f;
+    --bg-elev:#12121a;
+    --bg-elev-2:#181822;
+    --border:#242432;
+    --text:#e9e9f2;
+    --text-dim:#9a9ab0;
+    --text-faint:#63637a;
+    --gold:#e8b64c;
+    --gold-dim:#7a6427;
+    --emerald:#3ddc97;
+    --violet:#9d7bf0;
+    --danger:#ef5b6a;
+    --radius:14px;
+    --font-head:'Syne',sans-serif;
+    --font-body:'DM Sans',sans-serif;
+    --font-mono:'DM Mono',monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{
+    background:
+      radial-gradient(circle at 15% 0%, rgba(157,123,240,0.08), transparent 40%),
+      radial-gradient(circle at 85% 10%, rgba(61,220,151,0.06), transparent 40%),
+      var(--bg);
+    color:var(--text);
+    font-family:var(--font-body);
+    line-height:1.6;
+    min-height:100vh;
+    padding-bottom:60px;
+  }
+  a{color:inherit;}
+  .wrap{max-width:1100px;margin:0 auto;padding:0 20px;}
+
+  /* Header */
+  header.topbar{
+    border-bottom:1px solid var(--border);
+    padding:18px 0;
+    background:rgba(10,10,15,0.85);
+    backdrop-filter:blur(10px);
+    position:sticky;top:0;z-index:50;
+  }
+  .topbar-inner{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;}
+  .brand{display:flex;align-items:center;gap:10px;font-family:var(--font-head);font-weight:800;font-size:18px;letter-spacing:0.3px;}
+  .brand-badge{
+    width:34px;height:34px;border-radius:9px;
+    background:linear-gradient(135deg,var(--gold),var(--violet));
+    display:flex;align-items:center;justify-content:center;
+    font-size:16px;color:#0a0a0f;font-weight:800;
+  }
+  .brand small{display:block;font-family:var(--font-body);font-weight:500;font-size:11px;color:var(--text-faint);}
+  .topbar-actions{display:flex;gap:10px;align-items:center;}
+  .btn{
+    border:1px solid var(--border);
+    background:var(--bg-elev);
+    color:var(--text);
+    padding:9px 16px;
+    border-radius:9px;
+    font-family:var(--font-body);
+    font-weight:600;
+    font-size:13.5px;
+    cursor:pointer;
+    transition:all .15s ease;
+  }
+  .btn:hover{border-color:var(--text-faint);transform:translateY(-1px);}
+  .btn-gold{
+    background:linear-gradient(135deg,var(--gold),#c99a35);
+    color:#1a1200;border:none;
+  }
+  .btn-gold:hover{filter:brightness(1.08);}
+  .btn-ghost{background:transparent;}
+  .btn-emerald{background:linear-gradient(135deg,var(--emerald),#28a874);color:#04150e;border:none;}
+  .btn-sm{padding:6px 12px;font-size:12.5px;}
+
+  /* Hero */
+  .hero{padding:46px 0 20px;text-align:center;}
+  .hero h1{
+    font-family:var(--font-head);font-weight:800;
+    font-size:clamp(28px,4.5vw,42px);
+    letter-spacing:-0.5px;
+    background:linear-gradient(135deg,#fff,var(--gold) 60%,var(--violet));
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+    margin-bottom:12px;
+  }
+  .hero p{color:var(--text-dim);max-width:620px;margin:0 auto;font-size:15.5px;}
+  .hero-tags{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:18px;}
+  .tag{
+    font-size:12px;font-weight:600;color:var(--text-dim);
+    border:1px solid var(--border);padding:5px 12px;border-radius:20px;
+    display:flex;align-items:center;gap:6px;
+  }
+  .tag .dot{width:6px;height:6px;border-radius:50%;background:var(--emerald);}
+
+  /* Ad slot */
+  .ad-slot{
+    max-width:1100px;margin:18px auto;padding:0 20px;
+  }
+  .ad-slot .inner{
+    border:1px dashed var(--border);border-radius:10px;
+    padding:10px;text-align:center;color:var(--text-faint);
+    font-size:11.5px;letter-spacing:0.5px;text-transform:uppercase;
+  }
+
+  /* Main grid */
+  .main-grid{
+    display:grid;grid-template-columns:1.1fr 1fr;gap:22px;
+    margin-top:10px;align-items:start;
+  }
+  @media (max-width:860px){ .main-grid{grid-template-columns:1fr;} }
+
+  .card{
+    background:var(--bg-elev);
+    border:1px solid var(--border);
+    border-radius:var(--radius);
+    padding:22px;
+  }
+  .card h2{
+    font-family:var(--font-head);font-size:18px;font-weight:700;
+    margin-bottom:4px;
+  }
+  .card .sub{color:var(--text-faint);font-size:12.5px;margin-bottom:18px;}
+
+  .field{margin-bottom:16px;}
+  .field label{
+    display:block;font-size:12.5px;font-weight:600;
+    color:var(--text-dim);margin-bottom:6px;
+  }
+  select, input[type=text], input[type=number]{
+    width:100%;background:var(--bg-elev-2);
+    border:1px solid var(--border);color:var(--text);
+    padding:10px 12px;border-radius:9px;font-family:var(--font-mono);
+    font-size:13.5px;outline:none;
+  }
+  select:focus, input:focus{border-color:var(--violet);}
+
+  .row{display:flex;gap:10px;}
+  .row > *{flex:1;}
+
+  /* Preset chips */
+  .preset-grid{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:6px;}
+  .preset-chip{
+    border:1px solid var(--border);background:var(--bg-elev-2);
+    color:var(--text-dim);padding:7px 13px;border-radius:20px;
+    font-size:12.5px;font-weight:600;cursor:pointer;transition:.15s;
+  }
+  .preset-chip:hover{border-color:var(--gold);color:var(--gold);}
+  .preset-chip.active{background:var(--gold);color:#1a1200;border-color:var(--gold);}
+
+  /* Rule blocks */
+  #agentBlocks{display:flex;flex-direction:column;gap:14px;}
+  .agent-block{
+    border:1px solid var(--border);
+    border-radius:11px;background:var(--bg-elev-2);
+    padding:16px;position:relative;
+  }
+  .agent-block .ab-head{
+    display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;
+  }
+  .ab-head .ab-title{font-weight:700;font-size:13.5px;color:var(--gold);}
+  .icon-btn{
+    background:transparent;border:none;color:var(--text-faint);
+    cursor:pointer;font-size:15px;padding:4px 8px;border-radius:6px;
+  }
+  .icon-btn:hover{color:var(--danger);background:rgba(239,91,106,0.08);}
+
+  .path-list{display:flex;flex-direction:column;gap:8px;margin-top:10px;}
+  .path-row{display:flex;gap:8px;align-items:center;}
+  .path-row select{width:96px;flex:none;}
+  .path-row input{flex:1;}
+  .path-row .icon-btn{flex:none;}
+
+  .add-path-btn{
+    margin-top:10px;background:transparent;border:1px dashed var(--border);
+    color:var(--text-dim);width:100%;padding:8px;border-radius:8px;
+    font-size:12.5px;font-weight:600;cursor:pointer;
+  }
+  .add-path-btn:hover{border-color:var(--emerald);color:var(--emerald);}
+
+  .add-agent-btn{
+    border:1px dashed var(--border);background:transparent;
+    color:var(--text-dim);padding:12px;border-radius:11px;
+    font-weight:700;font-size:13.5px;cursor:pointer;width:100%;
+  }
+  .add-agent-btn:hover{border-color:var(--violet);color:var(--violet);}
+
+  /* Locked badge on extra blocks */
+  .lock-overlay{
+    position:absolute;inset:0;background:rgba(10,10,15,0.82);
+    border-radius:11px;display:flex;flex-direction:column;align-items:center;
+    justify-content:center;gap:8px;backdrop-filter:blur(2px);
+  }
+  .lock-overlay .lk{font-size:22px;}
+  .lock-overlay p{font-size:12.5px;color:var(--text-dim);text-align:center;padding:0 20px;}
+
+  /* AI bots quick block */
+  .ai-bots-box{
+    border:1px solid var(--border);border-radius:11px;
+    background:var(--bg-elev-2);padding:16px;margin-top:16px;
+  }
+  .ai-bots-box .ab-title2{
+    font-weight:700;font-size:13.5px;margin-bottom:4px;
+    display:flex;align-items:center;gap:8px;
+  }
+  .ai-bots-box .sub2{font-size:12px;color:var(--text-faint);margin-bottom:12px;}
+  .bot-checks{display:grid;grid-template-columns:1fr 1fr;gap:8px 14px;}
+  .bot-check{display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--text-dim);}
+  .bot-check input{width:auto;accent-color:var(--violet);}
+
+  /* Sitemap / crawl delay */
+  .misc-grid{display:grid;grid-template-columns:1fr;gap:14px;margin-top:16px;}
+
+  /* Preview panel */
+  .preview-card{position:sticky;top:90px;}
+  .preview-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;}
+  .preview-actions{display:flex;gap:8px;}
+  pre#previewOutput{
+    font-family:var(--font-mono);font-size:12.8px;line-height:1.7;
+    background:var(--bg-elev-2);border:1px solid var(--border);
+    border-radius:10px;padding:16px;white-space:pre-wrap;word-break:break-word;
+    max-height:520px;overflow-y:auto;color:#d7d7ea;
+    position:relative;
+  }
+  pre#previewOutput .comment{color:var(--text-faint);}
+  pre#previewOutput .kw{color:var(--emerald);}
+  pre#previewOutput .val{color:var(--gold);}
+
+  .blur-lock{filter:blur(5px);user-select:none;pointer-events:none;}
+  .preview-lockbar{
+    margin-top:12px;border:1px solid var(--gold-dim);
+    background:linear-gradient(135deg, rgba(232,182,76,0.08), rgba(157,123,240,0.06));
+    border-radius:10px;padding:14px 16px;display:flex;
+    align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;
+  }
+  .preview-lockbar p{font-size:12.5px;color:var(--text-dim);}
+  .preview-lockbar strong{color:var(--gold);}
+
+  .ai-advisor{
+    margin-top:18px;border:1px solid var(--border);border-radius:11px;
+    padding:16px;background:linear-gradient(135deg, rgba(157,123,240,0.06), rgba(61,220,151,0.04));
+  }
+  .ai-advisor h3{font-family:var(--font-head);font-size:14.5px;margin-bottom:6px;display:flex;align-items:center;gap:8px;}
+  .ai-advisor p{font-size:12.5px;color:var(--text-dim);margin-bottom:12px;}
+  textarea#siteDesc{
+    width:100%;min-height:60px;background:var(--bg-elev-2);
+    border:1px solid var(--border);color:var(--text);border-radius:9px;
+    padding:10px 12px;font-family:var(--font-body);font-size:13px;resize:vertical;outline:none;
+  }
+  textarea#siteDesc:focus{border-color:var(--violet);}
+  #aiResult{margin-top:12px;font-size:12.8px;color:var(--text-dim);background:var(--bg-elev-2);border:1px solid var(--border);border-radius:9px;padding:12px;display:none;white-space:pre-wrap;}
+
+  /* Modals */
+  .modal-backdrop{
+    position:fixed;inset:0;background:rgba(5,5,10,0.7);
+    display:none;align-items:center;justify-content:center;z-index:200;
+    padding:20px;backdrop-filter:blur(4px);
+  }
+  .modal-backdrop.open{display:flex;}
+  .modal{
+    background:var(--bg-elev);border:1px solid var(--border);
+    border-radius:16px;max-width:460px;width:100%;padding:28px;
+    position:relative;max-height:85vh;overflow-y:auto;
+  }
+  .modal.wide{max-width:600px;}
+  .modal-close{
+    position:absolute;top:14px;right:14px;background:transparent;
+    border:none;color:var(--text-faint);font-size:20px;cursor:pointer;
+  }
+  .modal h2{font-family:var(--font-head);font-size:21px;margin-bottom:8px;}
+  .modal p.desc{color:var(--text-dim);font-size:13.5px;margin-bottom:18px;}
+  .price-box{
+    display:flex;align-items:baseline;gap:8px;margin:18px 0;
+    padding:16px;border:1px solid var(--gold-dim);border-radius:12px;
+    background:rgba(232,182,76,0.06);
+  }
+  .price-box .amt{font-family:var(--font-head);font-size:30px;font-weight:800;color:var(--gold);}
+  .price-box .was{text-decoration:line-through;color:var(--text-faint);font-size:14px;}
+  .perk-list{list-style:none;margin:16px 0;display:flex;flex-direction:column;gap:10px;}
+  .perk-list li{display:flex;gap:10px;font-size:13.5px;color:var(--text-dim);align-items:flex-start;}
+  .perk-list li .ck{color:var(--emerald);font-weight:700;}
+  #payBtn{width:100%;padding:13px;font-size:14.5px;margin-top:8px;}
+  .secure-note{text-align:center;font-size:11.5px;color:var(--text-faint);margin-top:10px;}
+
+  /* Hindi guide modal */
+  .guide-content h3{font-family:var(--font-head);font-size:15px;margin:16px 0 8px;color:var(--emerald);}
+  .guide-content p, .guide-content li{font-size:13.5px;color:var(--text-dim);}
+  .guide-content ul{padding-left:20px;margin-top:6px;}
+  .guide-content li{margin-bottom:6px;}
+
+  footer{
+    text-align:center;padding:30px 20px 10px;color:var(--text-faint);font-size:12px;
+  }
+
+  .toast{
+    position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(20px);
+    background:var(--bg-elev-2);border:1px solid var(--emerald);color:var(--text);
+    padding:12px 20px;border-radius:10px;font-size:13px;font-weight:600;
+    opacity:0;pointer-events:none;transition:all .25s ease;z-index:300;
+  }
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="wrap topbar-inner">
+    <div class="brand">
+      <div class="brand-badge">R</div>
+      <div>
+        Robots.txt Generator
+        <small>IncomeAIHub by M.Dev</small>
+      </div>
+    </div>
+    <div class="topbar-actions">
+      <button class="btn btn-ghost btn-sm" id="guideBtn">हिंदी गाइड</button>
+      <button class="btn btn-gold btn-sm" id="unlockTopBtn">🔓 Unlock Pro</button>
+    </div>
+  </div>
+</header>
+
+<section class="hero wrap">
+  <h1>Robots.txt Generator</h1>
+  <p>Create a clean, error-free robots.txt file for your website. Control search engine crawlers, block AI scrapers, and submit your sitemap — all in one place.</p>
+  <div class="hero-tags">
+    <span class="tag"><span class="dot"></span>No signup needed</span>
+    <span class="tag"><span class="dot"></span>Instant preview</span>
+    <span class="tag"><span class="dot"></span>Block AI bots (GPTBot, CCBot etc.)</span>
+  </div>
+</section>
+
+<div class="ad-slot"><div class="inner">Advertisement</div></div>
+
+<main class="wrap main-grid">
+
+  <!-- LEFT: Builder -->
+  <div class="card">
+    <h2>Build Your Rules</h2>
+    <div class="sub">Pick a starting preset or build from scratch, then add crawl rules per bot.</div>
+
+    <div class="field">
+      <label>Quick Presets</label>
+      <div class="preset-grid">
+        <button class="preset-chip" data-preset="allow-all">Allow All</button>
+        <button class="preset-chip" data-preset="wordpress">WordPress</button>
+        <button class="preset-chip" data-preset="shopify">Shopify</button>
+        <button class="preset-chip" data-preset="block-staging">Block Staging</button>
+        <button class="preset-chip" data-preset="ecommerce">E-commerce</button>
+      </div>
+    </div>
+
+    <div id="agentBlocks"></div>
+    <button class="add-agent-btn" id="addAgentBtn" style="margin-top:14px;">+ Add User-agent Rule Block</button>
+
+    <div class="ai-bots-box">
+      <div class="ab-title2">🤖 Block AI Crawlers <span class="tag" style="margin-left:6px;">Popular</span></div>
+      <div class="sub2">Prevent AI companies from scraping your content for model training.</div>
+      <div class="bot-checks" id="aiBotChecks"></div>
+    </div>
+
+    <div class="misc-grid">
+      <div class="field" style="margin-bottom:0;">
+        <label>Sitemap URL(s) — comma separated</label>
+        <input type="text" id="sitemapInput" placeholder="https://yourdomain.com/sitemap.xml">
+      </div>
+      <div class="row">
+        <div class="field" style="margin-bottom:0;">
+          <label>Crawl-delay (seconds, optional)</label>
+          <input type="number" id="crawlDelay" min="0" placeholder="e.g. 10">
+        </div>
+        <div class="field" style="margin-bottom:0;">
+          <label>Host (optional)</label>
+          <input type="text" id="hostInput" placeholder="yourdomain.com">
+        </div>
+      </div>
+    </div>
+
+    <div class="ai-advisor">
+      <h3>✨ AI Rule Advisor <span class="tag">Pro</span></h3>
+      <p>Describe your website (e.g. "WordPress blog with a members login area and an /admin panel") and let AI suggest the ideal robots.txt rules for you.</p>
+      <textarea id="siteDesc" placeholder="Describe your website type, pages you want hidden from search engines, CMS used, etc."></textarea>
+      <button class="btn btn-emerald btn-sm" id="aiAdvisorBtn" style="margin-top:10px;">Get AI Suggestions</button>
+      <div id="aiResult"></div>
+    </div>
+  </div>
+
+  <!-- RIGHT: Preview -->
+  <div class="card preview-card">
+    <div class="preview-head">
+      <div>
+        <h2 style="margin-bottom:2px;">Live Preview</h2>
+        <div class="sub" style="margin-bottom:0;">robots.txt</div>
+      </div>
+      <div class="preview-actions">
+        <button class="btn btn-sm" id="copyBtn">📋 Copy</button>
+        <button class="btn btn-gold btn-sm" id="downloadBtn">⬇ Download</button>
+      </div>
+    </div>
+    <pre id="previewOutput"></pre>
+    <div class="preview-lockbar" id="previewLockbar" style="display:none;">
+      <p>🔒 <strong>Full file locked.</strong> Unlock Pro to view &amp; download the complete robots.txt with all rules.</p>
+      <button class="btn btn-gold btn-sm" id="unlockFromPreviewBtn">Unlock ₹149</button>
+    </div>
+  </div>
+
+</main>
+
+<div class="ad-slot"><div class="inner">Advertisement</div></div>
+
+<footer>
+  © 2026 IncomeAIHub by M.Dev · Built for freelancers &amp; small businesses in India · Robots.txt Generator
+</footer>
+
+<!-- Unlock / Payment Modal -->
+<div class="modal-backdrop" id="unlockModal">
+  <div class="modal">
+    <button class="modal-close" data-close="unlockModal">✕</button>
+    <h2>Unlock Pro Features</h2>
+    <p class="desc">Get lifetime access to the full Robots.txt Generator on this device.</p>
+    <div class="price-box">
+      <span class="amt">₹149</span>
+      <span class="was">₹499</span>
+      <span class="tag">One-time · Lifetime</span>
+    </div>
+    <ul class="perk-list">
+      <li><span class="ck">✓</span> Unlimited User-agent rule blocks</li>
+      <li><span class="ck">✓</span> Block all AI crawlers (GPTBot, CCBot, ClaudeBot &amp; more)</li>
+      <li><span class="ck">✓</span> AI Rule Advisor — smart suggestions for your site</li>
+      <li><span class="ck">✓</span> Full copy &amp; download access</li>
+      <li><span class="ck">✓</span> Lifetime updates, no recurring fee</li>
+    </ul>
+    <button class="btn btn-gold" id="payBtn">Unlock Now — ₹149</button>
+    <p class="secure-note">🔒 Secured by Razorpay · UPI, Cards &amp; Netbanking accepted</p>
+  </div>
+</div>
+
+<!-- Hindi Guide Modal -->
+<div class="modal-backdrop" id="guideModal">
+  <div class="modal wide">
+    <button class="modal-close" data-close="guideModal">✕</button>
+    <h2>इस्तेमाल कैसे करें (Hindi Guide)</h2>
+    <div class="guide-content">
+      <h3>1. Robots.txt क्या है?</h3>
+      <p>Robots.txt एक फाइल है जो सर्च इंजन क्रॉलर्स (जैसे Googlebot) को बताती है कि आपकी वेबसाइट के कौन से हिस्से क्रॉल करने की अनुमति है और कौन से नहीं।</p>
+      <h3>2. इस टूल का इस्तेमाल कैसे करें</h3>
+      <ul>
+        <li>ऊपर दिए गए Preset में से अपनी वेबसाइट टाइप चुनें (WordPress, Shopify आदि)</li>
+        <li>"Add User-agent Rule Block" पर क्लिक करके अलग-अलग बॉट्स के लिए rules जोड़ें</li>
+        <li>AI Bots सेक्शन में चेकबॉक्स से GPTBot, CCBot जैसे AI क्रॉलर्स को ब्लॉक करें</li>
+        <li>अपनी Sitemap URL डालें ताकि सर्च इंजन को सही जानकारी मिले</li>
+        <li>दाईं तरफ Live Preview में तुरंत फाइल देखें</li>
+        <li>Download पर क्लिक करके robots.txt फाइल डाउनलोड करें और अपनी वेबसाइट के root folder में अपलोड करें</li>
+      </ul>
+      <h3>3. फाइल कहाँ अपलोड करें?</h3>
+      <p>robots.txt फाइल को हमेशा अपनी वेबसाइट के मुख्य (root) फोल्डर में रखें, जैसे: yourdomain.com/robots.txt</p>
+      <h3>4. Pro Unlock क्यों लें?</h3>
+      <p>फ्री वर्जन में सिर्फ 1 rule block और सीमित प्रीव्यू मिलता है। Pro में अनलिमिटेड rules, AI Bot blocking, AI Advisor और पूरी फाइल डाउनलोड करने की सुविधा मिलती है — सिर्फ ₹149 में, जीवनभर के लिए।</p>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* =========================================================
+   IncomeAIHub — Robots.txt Generator
+   Shared architecture: Supabase Edge Functions + Razorpay
+   ========================================================= */
+
+/* ---------- CONFIG ---------- */
+const CONFIG = {
+  tool_id: "robots-txt-generator",
+  tool_name: "Robots.txt Generator",
+  price_display: "₹149",
+  price_paise: 14900,
+  supabase_url: "https://YOUR_PROJECT_REF.supabase.co", // placeholder -> triggers DEMO_MODE
+  supabase_anon_key: "YOUR_SUPABASE_ANON_KEY",           // placeholder -> triggers DEMO_MODE
+  razorpay_key_id: "rzp_live_YOUR_KEY_ID",                // placeholder -> triggers DEMO_MODE
+  free_agent_blocks: 1,
+  free_ai_bot_blocks: 2
+};
+
+const DEMO_MODE = CONFIG.supabase_url.includes("YOUR_PROJECT_REF") ||
+                   CONFIG.supabase_anon_key.includes("YOUR_SUPABASE") ||
+                   CONFIG.razorpay_key_id.includes("YOUR_KEY_ID");
+
+const FN_BASE = CONFIG.supabase_url + "/functions/v1/";
+
+/* ---------- DEVICE ID ---------- */
+function getDeviceId(){
+  let id = localStorage.getItem("iah_device_id");
+  if(!id){
+    id = "dev_" + Date.now().toString(36) + "_" + Math.random().toString(36).slice(2,11);
+    localStorage.setItem("iah_device_id", id);
+  }
+  return id;
+}
+const DEVICE_ID = getDeviceId();
+const UNLOCK_KEY = "iah_unlock_" + CONFIG.tool_id;
+
+function isUnlocked(){
+  return localStorage.getItem(UNLOCK_KEY) === "true";
+}
+function setUnlocked(){
+  localStorage.setItem(UNLOCK_KEY, "true");
+}
+
+/* ---------- AI BOT LIST ---------- */
+const AI_BOTS = [
+  {ua:"GPTBot", label:"GPTBot (OpenAI)"},
+  {ua:"ChatGPT-User", label:"ChatGPT-User"},
+  {ua:"CCBot", label:"CCBot (Common Crawl)"},
+  {ua:"ClaudeBot", label:"ClaudeBot (Anthropic)"},
+  {ua:"anthropic-ai", label:"anthropic-ai"},
+  {ua:"Google-Extended", label:"Google-Extended (Bard/Gemini)"},
+  {ua:"Bytespider", label:"Bytespider (TikTok)"},
+  {ua:"PerplexityBot", label:"PerplexityBot"},
+  {ua:"Omgilibot", label:"Omgilibot"},
+  {ua:"FacebookBot", label:"FacebookBot (Meta AI)"}
+];
+
+/* ---------- STATE ---------- */
+let agentBlocks = []; // {id, agent, paths:[{type,value}]}
+let blockIdCounter = 0;
+
+function newBlock(agent = "*"){
+  blockIdCounter++;
+  return { id: blockIdCounter, agent, paths: [{type:"Disallow", value:"/admin/"}] };
+}
+
+agentBlocks.push(newBlock("*"));
+
+/* ---------- RENDER AGENT BLOCKS ---------- */
+const agentBlocksEl = document.getElementById("agentBlocks");
+
+function renderAgentBlocks(){
+  agentBlocksEl.innerHTML = "";
+  agentBlocks.forEach((block, idx) => {
+    const locked = !isUnlocked() && idx >= CONFIG.free_agent_blocks;
+    const div = document.createElement("div");
+    div.className = "agent-block";
+
+    let pathsHtml = block.paths.map(p => `
+      <div class="path-row" data-path-id="${p.id}">
+        <select class="path-type">
+          <option value="Disallow" ${p.type==="Disallow"?"selected":""}>Disallow</option>
+          <option value="Allow" ${p.type==="Allow"?"selected":""}>Allow</option>
+        </select>
+        <input type="text" class="path-value" placeholder="/path/" value="${escapeAttr(p.value)}">
+        <button class="icon-btn remove-path" title="Remove">✕</button>
+      </div>
+    `).join("");
+
+    div.innerHTML = `
+      <div class="ab-head">
+        <span class="ab-title">User-agent: ${escapeHtml(block.agent)}</span>
+        ${agentBlocks.length > 1 ? '<button class="icon-btn remove-agent" title="Remove block">🗑</button>' : ''}
+      </div>
+      <div class="field" style="margin-bottom:0;">
+        <label>User-agent</label>
+        <select class="agent-select">
+          <option value="*" ${block.agent==="*"?"selected":""}>* (All bots)</option>
+          <option value="Googlebot" ${block.agent==="Googlebot"?"selected":""}>Googlebot</option>
+          <option value="Bingbot" ${block.agent==="Bingbot"?"selected":""}>Bingbot</option>
+          <option value="Slurp" ${block.agent==="Slurp"?"selected":""}>Slurp (Yahoo)</option>
+          <option value="DuckDuckBot" ${block.agent==="DuckDuckBot"?"selected":""}>DuckDuckBot</option>
+          <option value="custom" ${!["*","Googlebot","Bingbot","Slurp","DuckDuckBot"].includes(block.agent)?"selected":""}>Custom…</option>
+        </select>
+      </div>
+      <div class="path-list">${pathsHtml}</div>
+      <button class="add-path-btn">+ Add Path Rule</button>
+      ${locked ? `<div class="lock-overlay"><div class="lk">🔒</div><p>Unlock Pro to edit this rule block and add unlimited user-agents.</p></div>` : ""}
+    `;
+    agentBlocksEl.appendChild(div);
+
+    if(!locked){
+      // agent select
+      div.querySelector(".agent-select").addEventListener("change", (e) => {
+        if(e.target.value === "custom"){
+          const val = prompt("Enter custom user-agent name:", "");
+          block.agent = val && val.trim() ? val.trim() : "*";
+        } else {
+          block.agent = e.target.value;
+        }
+        renderAll();
+      });
+      // add path
+      div.querySelector(".add-path-btn").addEventListener("click", () => {
+        block.paths.push({id: "p"+Date.now()+Math.random(), type:"Disallow", value:"/"});
+        renderAll();
+      });
+      // remove agent
+      const removeAgentBtn = div.querySelector(".remove-agent");
+      if(removeAgentBtn){
+        removeAgentBtn.addEventListener("click", () => {
+          agentBlocks = agentBlocks.filter(b => b.id !== block.id);
+          renderAll();
+        });
+      }
+      // path rows
+      div.querySelectorAll(".path-row").forEach((row, pIdx) => {
+        row.querySelector(".path-type").addEventListener("change", (e) => {
+          block.paths[pIdx].type = e.target.value;
+          renderAll();
+        });
+        row.querySelector(".path-value").addEventListener("input", (e) => {
+          block.paths[pIdx].value = e.target.value;
+          renderPreviewOnly();
+        });
+        row.querySelector(".remove-path").addEventListener("click", () => {
+          block.paths.splice(pIdx,1);
+          if(block.paths.length===0) block.paths.push({type:"Disallow", value:""});
+          renderAll();
+        });
+      });
+    } else {
+      div.querySelectorAll("select,input,button:not(.lock-overlay button)").forEach(el=>{
+        if(!el.closest(".lock-overlay")) el.disabled = true;
+      });
+    }
+  });
+}
+
+function escapeHtml(str){
+  return (str||"").replace(/[&<>"']/g, m => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));
+}
+function escapeAttr(str){ return escapeHtml(str); }
+
+/* ---------- ADD AGENT BLOCK ---------- */
+document.getElementById("addAgentBtn").addEventListener("click", () => {
+  if(!isUnlocked() && agentBlocks.length >= CONFIG.free_agent_blocks){
+    openModal("unlockModal");
+    return;
+  }
+  agentBlocks.push(newBlock("Googlebot"));
+  renderAll();
+});
+
+/* ---------- AI BOTS CHECKLIST ---------- */
+const aiBotChecksEl = document.getElementById("aiBotChecks");
+let selectedAiBots = new Set();
+
+function renderAiBotChecks(){
+  aiBotChecksEl.innerHTML = "";
+  AI_BOTS.forEach((bot, idx) => {
+    const locked = !isUnlocked() && idx >= CONFIG.free_ai_bot_blocks;
+    const label = document.createElement("label");
+    label.className = "bot-check";
+    label.innerHTML = `<input type="checkbox" data-ua="${bot.ua}" ${locked?"disabled":""}> ${bot.label}${locked?" 🔒":""}`;
+    label.querySelector("input").addEventListener("change", (e) => {
+      if(e.target.checked) selectedAiBots.add(bot.ua);
+      else selectedAiBots.delete(bot.ua);
+      renderPreviewOnly();
+    });
+    aiBotChecksEl.appendChild(label);
+  });
+}
+
+/* ---------- PRESETS ---------- */
+const PRESETS = {
+  "allow-all": () => {
+    agentBlocks = [{id: ++blockIdCounter, agent:"*", paths:[{type:"Allow", value:"/"}]}];
+    selectedAiBots = new Set();
+  },
+  "wordpress": () => {
+    agentBlocks = [{id: ++blockIdCounter, agent:"*", paths:[
+      {type:"Disallow", value:"/wp-admin/"},
+      {type:"Allow", value:"/wp-admin/admin-ajax.php"},
+      {type:"Disallow", value:"/wp-includes/"},
+      {type:"Disallow", value:"/?s="}
+    ]}];
+  },
+  "shopify": () => {
+    agentBlocks = [{id: ++blockIdCounter, agent:"*", paths:[
+      {type:"Disallow", value:"/admin"},
+      {type:"Disallow", value:"/cart"},
+      {type:"Disallow", value:"/orders"},
+      {type:"Disallow", value:"/checkout"},
+      {type:"Disallow", value:"/*?*"}
+    ]}];
+  },
+  "block-staging": () => {
+    agentBlocks = [{id: ++blockIdCounter, agent:"*", paths:[{type:"Disallow", value:"/"}]}];
+  },
+  "ecommerce": () => {
+    agentBlocks = [{id: ++blockIdCounter, agent:"*", paths:[
+      {type:"Disallow", value:"/cart/"},
+      {type:"Disallow", value:"/checkout/"},
+      {type:"Disallow", value:"/my-account/"},
+      {type:"Disallow", value:"/*?add-to-cart="},
+      {type:"Allow", value:"/"}
+    ]}];
+  }
+};
+
+document.querySelectorAll(".preset-chip").forEach(chip => {
+  chip.addEventListener("click", () => {
+    document.querySelectorAll(".preset-chip").forEach(c=>c.classList.remove("active"));
+    chip.classList.add("active");
+    const key = chip.dataset.preset;
+    if(PRESETS[key]) PRESETS[key]();
+    renderAll();
+  });
+});
+
+/* ---------- BUILD ROBOTS.TXT TEXT ---------- */
+function buildRobotsTxt(){
+  let lines = [];
+  lines.push("# Generated with IncomeAIHub Robots.txt Generator");
+  lines.push("# https://incomeaihub.in");
+  lines.push("");
+
+  const visibleBlocks = isUnlocked() ? agentBlocks : agentBlocks.slice(0, CONFIG.free_agent_blocks);
+
+  visibleBlocks.forEach(block => {
+    lines.push(`User-agent: ${block.agent || "*"}`);
+    block.paths.forEach(p => {
+      if(p.value && p.value.trim()!==""){
+        lines.push(`${p.type}: ${p.value.trim()}`);
+      }
+    });
+    const delay = document.getElementById("crawlDelay").value;
+    if(delay && delay.trim()!=="") lines.push(`Crawl-delay: ${delay.trim()}`);
+    lines.push("");
+  });
+
+  const visibleAiBots = isUnlocked() ? [...selectedAiBots] : [...selectedAiBots].slice(0, CONFIG.free_ai_bot_blocks);
+  if(visibleAiBots.length > 0){
+    lines.push("# --- AI Crawlers ---");
+    visibleAiBots.forEach(ua => {
+      lines.push(`User-agent: ${ua}`);
+      lines.push("Disallow: /");
+      lines.push("");
+    });
+  }
+
+  const host = document.getElementById("hostInput").value.trim();
+  if(host){
+    lines.push(`Host: ${host}`);
+  }
+
+  const sitemapRaw = document.getElementById("sitemapInput").value.trim();
+  if(sitemapRaw){
+    sitemapRaw.split(",").map(s=>s.trim()).filter(Boolean).forEach(sm => {
+      lines.push(`Sitemap: ${sm}`);
+    });
+  }
+
+  return lines.join("\n").trim() + "\n";
+}
+
+function syntaxHighlight(text){
+  return escapeHtml(text)
+    .replace(/^(#.*)$/gm, '<span class="comment">$1</span>')
+    .replace(/^(User-agent|Disallow|Allow|Crawl-delay|Sitemap|Host):/gm, '<span class="kw">$1:</span>');
+}
+
+/* ---------- RENDER PREVIEW ---------- */
+const previewEl = document.getElementById("previewOutput");
+const lockbarEl = document.getElementById("previewLockbar");
+
+function renderPreviewOnly(){
+  const txt = buildRobotsTxt();
+  previewEl.innerHTML = syntaxHighlight(txt);
+
+  const hasLockedContent = !isUnlocked() && (
+    agentBlocks.length > CONFIG.free_agent_blocks ||
+    selectedAiBots.size > CONFIG.free_ai_bot_blocks
+  );
+  lockbarEl.style.display = hasLockedContent ? "flex" : "none";
+}
+
+function renderAll(){
+  renderAgentBlocks();
+  renderAiBotChecks();
+  renderPreviewOnly();
+}
+
+/* ---------- MISC INPUT LISTENERS ---------- */
+["sitemapInput","crawlDelay","hostInput"].forEach(id => {
+  document.getElementById(id).addEventListener("input", renderPreviewOnly);
+});
+
+/* ---------- COPY / DOWNLOAD ---------- */
+document.getElementById("copyBtn").addEventListener("click", () => {
+  if(!isUnlocked() && (agentBlocks.length > CONFIG.free_agent_blocks || selectedAiBots.size > CONFIG.free_ai_bot_blocks)){
+    openModal("unlockModal");
+    return;
+  }
+  const txt = buildRobotsTxt();
+  navigator.clipboard.writeText(txt).then(()=> showToast("Copied to clipboard ✅"));
+});
+
+document.getElementById("downloadBtn").addEventListener("click", () => {
+  if(!isUnlocked() && (agentBlocks.length > CONFIG.free_agent_blocks || selectedAiBots.size > CONFIG.free_ai_bot_blocks)){
+    openModal("unlockModal");
+    return;
+  }
+  const txt = buildRobotsTxt();
+  const blob = new Blob([txt], {type:"text/plain"});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url; a.download = "robots.txt";
+  document.body.appendChild(a); a.click(); a.remove();
+  URL.revokeObjectURL(url);
+  showToast("Downloaded robots.txt ✅");
+});
+
+/* ---------- MODALS ---------- */
+function openModal(id){ document.getElementById(id).classList.add("open"); }
+function closeModal(id){ document.getElementById(id).classList.remove("open"); }
+
+document.querySelectorAll("[data-close]").forEach(btn => {
+  btn.addEventListener("click", () => closeModal(btn.dataset.close));
+});
+document.querySelectorAll(".modal-backdrop").forEach(bd => {
+  bd.addEventListener("click", (e) => { if(e.target === bd) bd.classList.remove("open"); });
+});
+
+document.getElementById("unlockTopBtn").addEventListener("click", () => openModal("unlockModal"));
+document.getElementById("unlockFromPreviewBtn").addEventListener("click", () => openModal("unlockModal"));
+document.getElementById("guideBtn").addEventListener("click", () => openModal("guideModal"));
+
+/* ---------- TOAST ---------- */
+function showToast(msg){
+  const t = document.getElementById("toast");
+  t.textContent = msg;
+  t.classList.add("show");
+  setTimeout(()=> t.classList.remove("show"), 2600);
+}
+
+/* =========================================================
+   SUPABASE EDGE FUNCTION CALLS (create-order / verify-payment)
+   ========================================================= */
+async function callEdgeFunction(name, payload){
+  const res = await fetch(FN_BASE + name, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": "Bearer " + CONFIG.supabase_anon_key
+    },
+    body: JSON.stringify(payload)
+  });
+  if(!res.ok) throw new Error("Edge function error: " + name);
+  return res.json();
+}
+
+async function checkUnlockStatus(){
+  if(DEMO_MODE) return; // skip remote check in demo mode
+  try{
+    const data = await callEdgeFunction("check-unlock", { tool_id: CONFIG.tool_id, device_id: DEVICE_ID });
+    if(data && data.unlocked){ setUnlocked(); renderAll(); }
+  }catch(e){ console.warn("check-unlock failed", e); }
+}
+
+document.getElementById("payBtn").addEventListener("click", async () => {
+  const payBtn = document.getElementById("payBtn");
+  payBtn.disabled = true;
+  payBtn.textContent = "Processing…";
+
+  if(DEMO_MODE){
+    // Simulated unlock flow for demo/testing
+    setTimeout(() => {
+      setUnlocked();
+      renderAll();
+      closeModal("unlockModal");
+      showToast("🎉 Demo Unlock complete! (Live payments need Supabase + Razorpay keys)");
+      payBtn.disabled = false;
+      payBtn.textContent = "Unlock Now — " + CONFIG.price_display;
+    }, 900);
+    return;
+  }
+
+  try{
+    const order = await callEdgeFunction("create-order", {
+      tool_id: CONFIG.tool_id,
+      device_id: DEVICE_ID,
+      amount: CONFIG.price_paise
+    });
+
+    const options = {
+      key: CONFIG.razorpay_key_id,
+      amount: CONFIG.price_paise,
+      currency: "INR",
+      name: "IncomeAIHub by M.Dev",
+      description: CONFIG.tool_name + " — Lifetime Unlock",
+      order_id: order.id,
+      handler: async function(response){
+        try{
+          const verify = await callEdgeFunction("verify-payment", {
+            tool_id: CONFIG.tool_id,
+            device_id: DEVICE_ID,
+            razorpay_order_id: response.razorpay_order_id,
+            razorpay_payment_id: response.razorpay_payment_id,
+            razorpay_signature: response.razorpay_signature
+          });
+          if(verify && verify.success){
+            setUnlocked();
+            renderAll();
+            closeModal("unlockModal");
+            showToast("🎉 Unlocked! Thank you.");
+          } else {
+            showToast("Verification failed. Contact support.");
+          }
+        }catch(e){
+          console.error(e);
+          showToast("Payment verification error.");
+        }
+      },
+      theme: { color: "#e8b64c" }
+    };
+    const rzp = new Razorpay(options);
+    rzp.open();
+  }catch(e){
+    console.error(e);
+    showToast("Could not start payment. Try again.");
+  } finally {
+    payBtn.disabled = false;
+    payBtn.textContent = "Unlock Now — " + CONFIG.price_display;
+  }
+});
+
+/* ---------- AI ADVISOR (ai-proxy edge function) ---------- */
+document.getElementById("aiAdvisorBtn").addEventListener("click", async () => {
+  if(!isUnlocked()){
+    openModal("unlockModal");
+    return;
+  }
+  const desc = document.getElementById("siteDesc").value.trim();
+  if(!desc){ showToast("Please describe your website first."); return; }
+
+  const resultEl = document.getElementById("aiResult");
+  resultEl.style.display = "block";
+  resultEl.textContent = "Thinking… generating suggestions for your site.";
+
+  if(DEMO_MODE){
+    setTimeout(() => {
+      resultEl.textContent =
+        "Suggested rules (demo mode):\n\n" +
+        "User-agent: *\n" +
+        "Disallow: /admin/\n" +
+        "Disallow: /login/\n" +
+        "Allow: /\n\n" +
+        "Consider blocking AI bots (GPTBot, CCBot) if you don't want your content used for AI training.\n" +
+        "Connect Supabase + ai-proxy edge function for live AI-powered suggestions.";
+    }, 1200);
+    return;
+  }
+
+  try{
+    const data = await callEdgeFunction("ai-proxy", {
+      tool_id: CONFIG.tool_id,
+      device_id: DEVICE_ID,
+      prompt: `Suggest robots.txt rules for this website: "${desc}". Return concise, practical Disallow/Allow rules only.`
+    });
+    resultEl.textContent = data.result || "No suggestions returned. Try rephrasing your description.";
+  }catch(e){
+    console.error(e);
+    resultEl.textContent = "Could not fetch AI suggestions right now. Please try again later.";
+  }
+});
+
+/* ---------- RAZORPAY SDK LOAD (only if not demo) ---------- */
+if(!DEMO_MODE){
+  const script = document.createElement("script");
+  script.src = "https://checkout.razorpay.com/v1/checkout.js";
+  document.head.appendChild(script);
+}
+
+/* ---------- INIT ---------- */
+renderAll();
+checkUnlockStatus();
+if(DEMO_MODE){
+  console.info("%cIncomeAIHub — DEMO_MODE active", "color:#e8b64c;font-weight:bold;",
+    "\nReplace CONFIG.supabase_url, supabase_anon_key & razorpay_key_id with real values to go live.");
+}
+</script>
+</body>
+</html>
